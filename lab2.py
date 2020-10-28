@@ -98,8 +98,8 @@ class ChineseOCR(object):
 
 
         # TODO
-        self.trainset = torchvision.datasets.ImageFolder(self.in_path,self.transform_train)
-        self.testset = torchvision.datasets.ImageFolder(self.in_path,self.transform_test)
+        self.trainset = torchvision.datasets.ImageFolder(self.in_path,transform_train)
+        self.testset = torchvision.datasets.ImageFolder(self.in_path,transform_test)
 
         self.trainloader = torch.utils.data.DataLoader(self.trainset, batch_size=self.batch_size, shuffle=True)
         self.testloader = torch.utils.data.DataLoader(self.testset, batch_size=self.batch_size, shuffle=False)
@@ -245,11 +245,11 @@ class ChineseOCR(object):
 
     def showWeights(self):
         # TODO
-        # w_conv1 = ...
-        # w_conv2 = ...
-        # w_fc1 = ...
-        # w_fc2 = ...
-        # w_fc3 = ...
+        w_conv1 = self.net.conv1
+        w_conv2 = self.net.conv2
+        w_fc1 = self.net.fc1
+        w_fc2 = self.net.fc2 
+        w_fc3 = self.net.fc3
 
         plt.figure(figsize=(24, 6))
         plt.subplot(1,5,1)
