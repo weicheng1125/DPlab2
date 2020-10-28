@@ -101,8 +101,8 @@ class ChineseOCR(object):
 
 
         # TODO
-        self.trainset = torchvision.datasets.ImageFolder(self.in_path,transform_train)
-        self.testset = torchvision.datasets.ImageFolder(self.in_path,transform_test)
+        self.trainset = torchvision.datasets.ImageFolder(self.in_path + '/train',transform_train)
+        self.testset = torchvision.datasets.ImageFolder(self.in_path + '/test',transform_test)
 
         self.trainloader = torch.utils.data.DataLoader(self.trainset, batch_size=self.batch_size, shuffle=True)
         self.testloader = torch.utils.data.DataLoader(self.testset, batch_size=self.batch_size, shuffle=False)
@@ -306,4 +306,4 @@ class ChineseOCR(object):
 
 if __name__ == '__main__':
     # you can adjust your hyperperamers
-    ocr = ChineseOCR('./data', 60, 32, 0.001)
+    ocr = ChineseOCR('./data', 75, 32, 0.001)
