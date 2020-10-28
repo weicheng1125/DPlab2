@@ -59,10 +59,10 @@ class ChineseOCR(object):
         self.train_acc = self.train()
         self.saveModel()
         self.getWeight()
-        self.testShow()
-        #self.test()
+        #self.testShow()
+        self.test()
 
-        #self.showWeights()
+        self.showWeights()
 
     def checkdevice(self):
         # To determine if your system supports CUDA
@@ -251,10 +251,19 @@ class ChineseOCR(object):
         for name, para in self.net.named_parameters():
         #for name, para in self.net.state_dict():
             #print('{}: {}'.format(name, para.shape))
-            self.weights[name] = para.cpu().detach().numpy().reshape([450,],order = 'F')
+            if name == 'conv1.weight':
+              self.weights[name] = para.cpu().detach().numpy().reshape([450,],order = 'F')
+            elif name == 'conv2.weight':
+              self.weights[name] = para.cpu().detach().numpy().reshape([2400,],order = 'F')
+            elif name == 'fc1.weight':
+              self.weights[name] = para.cpu().detach().numpy().reshape([1614720,],order = 'F')
+            elif name == 'fc2.weight':
+              self.weights[name] = para.cpu().detach().numpy().reshape([10080,],order = 'F')
+            elif name == 'fc3.weight':
+              self.weights[name] = para.cpu().detach().numpy().reshape([840,],order = 'F')
             #print(self.weights['conv1.weight'])
-            print(self.weights['conv1.weight'])
-            break
+            #print(self.weights['conv1.weight'])
+            #break
         #print(self.weights['conv1.weight'])
     def testShow(self):
         w_conv1 = self.weights['conv1.weight']
@@ -266,11 +275,11 @@ class ChineseOCR(object):
 
     def showWeights(self):
         # TODO
-        w_conv1 = self.net.conv1
-        w_conv2 = self.net.conv2
-        w_fc1 = self.net.fc1
-        w_fc2 = self.net.fc2 
-        w_fc3 = self.net.fc3
+        w_conv1 = self.weights['conv1.weight']
+        w_conv2 = self.weights['conv2.weight']
+        w_fc1 = self.weights['fc1.weight']
+        w_fc2 = self.weights['fc2.weight'] 
+        w_fc3 = self.weights['fc3.weight']
 
         plt.figure(figsize=(24, 6))
         plt.subplot(1,5,1)
@@ -297,4 +306,4 @@ class ChineseOCR(object):
 
 if __name__ == '__main__':
     # you can adjust your hyperperamers
-    ocr = ChineseOCR('./data', 1, 32, 0.001)
+    ocr = ChineseOCR('./data', 60, 32, 0.001)
