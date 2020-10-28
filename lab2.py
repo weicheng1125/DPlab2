@@ -58,9 +58,10 @@ class ChineseOCR(object):
         self.getModel()
         self.train_acc = self.train()
         self.saveModel()
-        self.test()
+        self.getWeight()
+        #self.test()
 
-        self.showWeights()
+        #self.showWeights()
 
     def checkdevice(self):
         # To determine if your system supports CUDA
@@ -242,6 +243,10 @@ class ChineseOCR(object):
             # If you save the entire model
             self.net = torch.load(path)
         return
+    def getWeight():
+        # Display all model layer weights
+        for name, para in self.net.named_parameters():
+            print('{}: {}'.format(name, para.shape))
 
     def showWeights(self):
         # TODO
