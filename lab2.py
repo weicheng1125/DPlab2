@@ -59,6 +59,7 @@ class ChineseOCR(object):
         self.train_acc = self.train()
         self.saveModel()
         self.getWeight()
+        self.testShow()
         #self.test()
 
         #self.showWeights()
@@ -67,6 +68,7 @@ class ChineseOCR(object):
         # To determine if your system supports CUDA
         print("Check devices...")
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        #self.device = 'cpu'
         print("Current device:", self.device)
 
         # Also can print your current GPU id, and the number of GPUs you can use.
@@ -243,10 +245,24 @@ class ChineseOCR(object):
             # If you save the entire model
             self.net = torch.load(path)
         return
-    def getWeight():
+    def getWeight(self):
         # Display all model layer weights
+        self.weights = dict()
         for name, para in self.net.named_parameters():
-            print('{}: {}'.format(name, para.shape))
+        #for name, para in self.net.state_dict():
+            #print('{}: {}'.format(name, para.shape))
+            self.weights[name] = para.cpu().detach().numpy().reshape([450,],order = 'F')
+            #print(self.weights['conv1.weight'])
+            print(self.weights['conv1.weight'])
+            break
+        #print(self.weights['conv1.weight'])
+    def testShow(self):
+        w_conv1 = self.weights['conv1.weight']
+        plt.figure(figsize=(24, 6))
+        plt.subplot(1,5,1)
+        plt.title("conv1 weight")
+        plt.hist(w_conv1)
+        plt.savefig('weights.png')
 
     def showWeights(self):
         # TODO
@@ -281,4 +297,4 @@ class ChineseOCR(object):
 
 if __name__ == '__main__':
     # you can adjust your hyperperamers
-    ocr = ChineseOCR('./data', 75, 32, 0.001)
+    ocr = ChineseOCR('./data', 1, 32, 0.001)
