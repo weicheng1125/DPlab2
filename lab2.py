@@ -98,8 +98,8 @@ class ChineseOCR(object):
 
 
         # TODO
-        # self.trainset = torchvision.datasets.ImageFolder(...)
-        # self.testset = torchvision.datasets.ImageFolder(...)
+        self.trainset = torchvision.datasets.ImageFolder(self.in_path,self.transform_train)
+        self.testset = torchvision.datasets.ImageFolder(self.in_path,self.transform_test)
 
         self.trainloader = torch.utils.data.DataLoader(self.trainset, batch_size=self.batch_size, shuffle=True)
         self.testloader = torch.utils.data.DataLoader(self.testset, batch_size=self.batch_size, shuffle=False)
